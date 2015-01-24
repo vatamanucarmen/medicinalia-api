@@ -18,3 +18,6 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+
+    freebase_api_key: AIzaSyBDWUCsXFdlT6tLiK48LoQMKneMTZQnn2Y

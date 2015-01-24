@@ -17,7 +17,10 @@
         "symfony/monolog-bundle": "~2.4",
         "sensio/distribution-bundle": "~3.0.12",
         "sensio/framework-extra-bundle": "~3.0",
-        "incenteev/composer-parameter-handler": "~2.0"
+        "incenteev/composer-parameter-handler": "~2.0",
+        "jms/di-extra-bundle": "1.5.*@dev",
+        "phpunit/phpunit": "3.7.*@dev",
+        "google/apiclient": "1.0.*@beta"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
