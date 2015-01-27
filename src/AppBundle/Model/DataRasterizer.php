@@ -30,8 +30,10 @@ class DataRasterizer
         if (!$data['name']) {
             $data['name'] = @$copy['Label'];
         } else {
-            $data['other_names'][] = $copy['Label'];
+            $data['other_names'][] = @$copy['Label'];
         }
+
+        return $data;
     }
 
     public static function rasterizeFreebase($data)
