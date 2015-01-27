@@ -14,19 +14,24 @@ class DataRasterizer
     {
         $copy = static::prepareDataForDbpedia($data);
 
-        return [
-            'name' => @($copy['Name']),
+        $data = [
+            'name' => @$copy['Name'],
             'description' => @($copy['Description']),
             'photo_links' => static::getUniquePhotoLinksForDbpedia($copy),
             'other_names' => [
                 @($copy['Synonyms1']),
-                @($copy['Label']),
                 @($copy['Synonyms2'])
             ],
             'metadata' => [
                 'vitamins' => $copy['vitamins']
             ]
         ];
+
+        if (!$data['name']) {
+            $data['name'] = @$copy['Label'];
+        } else {
+            $data['other_names'][] = $copy['Label'];
+        }
     }
 
     public static function rasterizeFreebase($data)
