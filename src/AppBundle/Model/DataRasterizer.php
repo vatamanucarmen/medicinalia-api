@@ -12,15 +12,12 @@ class DataRasterizer
 {
     public static function rasterizeDbpedia($data)
     {
-        $copy = self::prepareDataForDbpedia($data);
+        $copy = static::prepareDataForDbpedia($data);
 
         return [
             'name' => @($copy['Name']),
             'description' => @($copy['Description']),
-            'photo_links' => [
-                @($copy['PhotoLink']),
-                @($copy['DrawingLink']),
-            ],
+            'photo_links' => static::getUniquePhotoLinksForDbpedia($copy),
             'other_names' => [
                 @($copy['Synonyms1']),
                 @($copy['Label']),
@@ -83,5 +80,41 @@ class DataRasterizer
         }
 
         return $copy;
+    }
+
+    private static function getImageUrlUntilQuestionMark($url)
+    {
+        if (($pos = strpos($url, '?')) === false) {
+            return $url;
+        }
+
+        return substr($url, 0, strpos($url, '?'));
+    }
+
+    /**
+     * @param $copy
+     *
+     * @return array
+     */
+    protected static function getUniquePhotoLinksForDbpedia($copy)
+    {
+        $photoLinks = [];
+
+//        echo static::getImageUrlUntilQuestionMark($copy['PhotoLink']);
+//        echo static::getImageUrlUntilQuestionMark($copy['DrawingLink']);die;
+
+        if (isset($copy['PhotoLink'])) {
+            $photoLinks[] = $copy['PhotoLink'];
+            if (isset($copy['DrawingLink'])) {
+                if (static::getImageUrlUntilQuestionMark($copy['DrawingLink'])
+                        != static::getImageUrlUntilQuestionMark($copy['PhotoLink'])) {
+                    $photoLinks[] = $copy['DrawingLink'];
+                }
+            }
+        } elseif (isset($copy['DrawingLink'])) {
+            $photoLinks[] = $copy['DrawingLink'];
+        }
+
+        return $photoLinks;
     }
 }
