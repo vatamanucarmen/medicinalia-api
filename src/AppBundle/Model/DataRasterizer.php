@@ -74,17 +74,20 @@ class DataRasterizer
         }
 
         $vitamins = ['CalciumMg', 'BetacaroteneUg', 'Protein', 'PotassiumMg', 'MagnesiumMg', 'IronMg', 'VitcMg', 'ViteMg', 'VitkUg', 'ZincMg'];
-        $copy['vitamins'] = [];
+        $vitaminMap = [];
         foreach ($vitamins as $vitamin) {
             if (isset($copy[$vitamin])) {
-                $copy['vitamins'][$vitamin] = $copy[$vitamin];
+                $vitaminMap[$vitamin] = $copy[$vitamin];
+                unset($copy[$vitamin]);
             }
         }
 
-        if (isset($copy['BetacaroteneUg'])) {
-            $copy['BetacaroteneMg'] = $copy['BetacaroteneUg'] * 1000;
-            unset($copy['BetacaroteneUg']);
+        if (isset($vitaminMap['BetacaroteneUg'])) {
+            $vitaminMap['BetacaroteneMg'] = $vitaminMap['BetacaroteneUg'] * 1000;
+            unset($vitaminMap['BetacaroteneUg']);
         }
+
+        $copy['vitamins'] = $vitaminMap;
 
         return $copy;
     }

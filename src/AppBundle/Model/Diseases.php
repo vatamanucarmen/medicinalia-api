@@ -12,6 +12,9 @@ namespace AppBundle\Model;
 class Diseases
 {
     public static $diseases = [
+        'Diabetes',
+        'Headache',
+        'Diarrhea',
         'Autism',
         'Motor neuron disease',
         'Acute disseminated encephalomyelitis',
