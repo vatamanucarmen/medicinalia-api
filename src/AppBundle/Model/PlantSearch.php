@@ -13,15 +13,31 @@ class PlantSearch
 {
     private $name;
     private $zones;
-    private $forDiseases;
+    private $forDisease;
     private $dietaryRestrictions;
 
-    function __construct($name = null, $zones = null, $forDiseases = null, $dietaryRestrictions = null)
+    function __construct($name = null, $zones = null, $forDisease = null, $dietaryRestrictions = null)
     {
         $this->name = $name;
         $this->zones = $zones;
-        $this->forDiseases = $forDiseases;
+        $this->forDisease = $forDisease;
         $this->dietaryRestrictions = $dietaryRestrictions;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDbPediaSpecific()
+    {
+        return count($this->zones) > 0;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFreebaseSpecific()
+    {
+        return $this->getForDisease() || count($this->getDietaryRestrictions());
     }
 
 
@@ -72,19 +88,19 @@ class PlantSearch
     /**
      * @return mixed
      */
-    public function getForDiseases()
+    public function getForDisease()
     {
-        return $this->forDiseases;
+        return $this->forDisease;
     }
 
     /**
-     * @param mixed $forDiseases
+     * @param mixed $forDisease
      *
      * @return $this
      */
-    public function setForDiseases($forDiseases)
+    public function setForDisease($forDisease)
     {
-        $this->forDiseases = $forDiseases;
+        $this->forDisease = $forDisease;
 
         return $this;
     }

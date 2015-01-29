@@ -34,8 +34,15 @@ class PlantSearchService
 
     public function search(PlantSearch $search)
     {
-        $dids = $this->searchDbpedia($search->getName(), $search->getZones());
-        $fids = $this->searchFreebase($search->getName(), $search->getDietaryRestrictions(), $search->getForDiseases());
+        $dids = $fids = [];
+
+        if (!$search->isFreebaseSpecific()) {
+            $dids = $this->searchDbpedia($search->getName(), $search->getZones());
+        }
+
+        if (!$search->isDbPediaSpecific()) {
+            $fids = $this->searchFreebase($search->getName(), $search->getDietaryRestrictions(), $search->getForDisease());
+        }
 
         return array_merge($dids, $fids);
     }
@@ -171,8 +178,9 @@ class PlantSearchService
         if ($forDisease) {
             $params['filter'] = "(all description:$forDisease)";
         }
+
         if ($dietaryRestrictions) {
-            $params['/food/ingredient/compatible_with_dietary_restrictions'] = $dietaryRestrictions;
+            $params['/food/ingredient/compatible_with_dietary_restrictions'] = []; //$dietaryRestrictions;
         }
 
         $response = $this->makeFreebaseCall($params);

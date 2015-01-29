@@ -54,7 +54,7 @@ class ApiController extends Controller
         $search = new PlantSearch(
             $request->get('name'),
             $request->get('zones'),
-            $request->get('forDiseases'),
+            $request->get('forDisease'),
             $request->get('dietaryRestrictions')
         );
 
@@ -65,7 +65,6 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             return $this->handleError($e->getMessage());
         }
-
     }
 
     /**
